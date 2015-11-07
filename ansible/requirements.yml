@@ -37,3 +37,7 @@
 - src: geerlingguy.elasticsearch
   path: roles
   name: elasticsearch
+
+- src: geerlingguy.solr
+  path: roles
+  name: solr

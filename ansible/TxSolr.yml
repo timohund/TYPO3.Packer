@@ -1,0 +1,52 @@
+---
+- hosts: all
+  gather_facts: true
+  sudo: yes
+  vars_files:
+    - configuration/TxSolr/main.yml
+    - configuration/TxSolr/nginx.yml
+    - configuration/TxSolr/php.yml
+    - configuration/TxSolr/websites.yml
+    - configuration/TxSolr/typo3.yml
+  roles:
+    - { role: geerlingguy.java, tags: java }
+    - {
+        role: solr,
+        tags: solr-6.2,
+        solr_port: 8081,
+        solr_version: '4.8.0',
+        solr_install_path: '/opt/solr_typo3_6.2',
+        solr_init_service_name: 'solr_typo3_6_2',
+        solr_home: '/var/solr_typo3_6.2',
+        solr_log_file_path: '/var/log/solr.6.2.log'
+      }
+    - {
+        role: solr,
+        tags: solr-7.6,
+        solr_port: 8082,
+        solr_version: '4.10.4',
+        solr_install_path: '/opt/solr_typo3_7.6',
+        solr_init_service_name: 'solr_typo3_7_6',
+        solr_home: '/var/solr_typo3_7.6',
+        solr_log_file_path: '/var/log/solr.7.6.log'
+    }
+    - {
+        role: solr,
+        tags: solr-dev-master,
+        solr_port: 8083,
+        solr_version: '4.10.4',
+        solr_install_path: '/opt/solr_typo3_dev-master',
+        solr_init_service_name: 'solr_typo3_dev-master',
+        solr_home: '/var/solr_typo3_dev-master',
+        solr_log_file_path: '/var/log/solr.dev-master.log'
+    }
+    - { role: solr,      tags: solr }
+    - { role: common,    tags: common }
+    - { role: php-fpm,   tags: php-fpm }
+    - { role: mariadb,   tags: mariadb }
+    - { role: phpcommon, tags: phpcommon }
+    - { role: composer,  tags: composer }
+    - { role: typo3,     tags: typo3 }
+    - { role: typo3-solr,     tags: typo3-solr }
+    - { role: memcached, tags: memcached }
+    - { role: nginx,     tags: nginx }

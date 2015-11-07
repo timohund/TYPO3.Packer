@@ -1,0 +1,12 @@
+---
+
+timezone: Europe/Amsterdam
+
+authorized_keys: {}
+
+context: Development
+
+mailcatcher_enable: yes
+
+__java_packages:
+  - openjdk-7-jre-headless
