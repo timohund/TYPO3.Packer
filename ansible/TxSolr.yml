@@ -42,11 +42,17 @@
     }
     - { role: solr,      tags: solr }
     - { role: common,    tags: common }
-    - { role: php-fpm,   tags: php-fpm }
+    - { role: geerlingguy.java, tags: java }
+    - { role: php-ondrej,   tags: php-ondrej }
     - { role: mariadb,   tags: mariadb }
     - { role: phpcommon, tags: phpcommon }
+    - { role: phpbrew,   tags: phpbrew }
+    - { role: hhvm,      tags: hhvm }
     - { role: composer,  tags: composer }
     - { role: typo3,     tags: typo3 }
-    - { role: typo3-solr,     tags: typo3-solr }
+    - { role: typo3-solr, tags: typo3-solr }
+    - { role: xhprof,    tags: xhprof }
     - { role: memcached, tags: memcached }
+    - { role: redis,     tags: redis }
     - { role: nginx,     tags: nginx }
+    - { role: nodejs,    tags: nodejs }
