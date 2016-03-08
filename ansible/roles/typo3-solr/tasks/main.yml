@@ -1,5 +1,15 @@
 ---
 
+- name: cleanup solr role leftovers
+  shell: "rm -fr /root/solr*"
+  ignore_errors: yes
+
+- name: add hosts entry
+  lineinfile: dest=/etc/hosts line='127.0.0.1 {{ item.key }}' owner=root group=root mode=0644
+  with_dict: typo3.cms.sites
+  when: item.key | match('^((6|7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+  ignore_errors: yes
+
 - name: get pagebrowser extension for TYPO3 6.x
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }}/typo3conf/ext && mkdir pagebrowse && cd pagebrowse && wget http://typo3.org/extensions/repository/download/pagebrowse/1.3.4/zip/ -O  pagebrowse.zip && unzip pagebrowse.zip"
@@ -28,32 +38,10 @@
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
-- name: get pagebrowser extension for TYPO3 6.x
-  sudo: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }}/typo3conf/ext && mkdir pagebrowse && cd pagebrowse && wget http://typo3.org/extensions/repository/download/pagebrowse/1.3.4/zip/ -O  pagebrowse.zip && unzip pagebrowse.zip"
-  when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
-  ignore_errors: yes
-
-- name: typo3_console install extension pagebrowser for 6.x
-  sudo: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install pagebrowse"
-  when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
-  ignore_errors: yes
-
-- name: get solr extension for TYPO3 6.x
-  sudo: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }}/typo3conf/ext && wget https://github.com/TYPO3-Solr/ext-solr/archive/3.0.2.tar.gz && tar xvfz 3.0.2.tar.gz && mv ext-solr-3.0.2 solr"
-  when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
-  with_dict: typo3.cms.sites
-  ignore_errors: yes
-
-
 - name: typo3_console install extension solr for 6.x
   sudo: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install solr"
-  when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d))\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
@@ -66,7 +54,7 @@
 ##
 # Solr Plugins for 7.x
 ##
-- name: install solr core configuration from extension for TYPO3 7.x
+- name: install solr plugins for TYPO3 7.x
   shell: "mkdir -p /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/typo3lib && wget https://github.com/TYPO3-Solr/solr-typo3-plugin/releases/download/release-1_3_0/solr-typo3-plugin-1.3.0.jar -O  /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/typo3lib/solr-typo3-plugin-1.3.0.jar"
   when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
@@ -75,9 +63,9 @@
 ##
 # Solr Plugins for 6.x
 ##
-- name: install solr core configuration from extension for TYPO3 6.x
+- name: install solr plugins for TYPO3 6.x
   shell: "mkdir -p /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/typo3lib"
-  when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d)|review)\\.')
+  when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d))\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
@@ -99,7 +87,9 @@
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
-
+###
+# Dist and Contrib folder
+##
 - name: mv dist and contrib to core folder
   shell: "mv /opt/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/contrib /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/ && mv /opt/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/dist /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/"
   when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
