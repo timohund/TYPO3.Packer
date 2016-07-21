@@ -6,7 +6,7 @@ authorized_keys: {}
 
 context: Development
 
-mailcatcher_enable: yes
+mailcatcher_enable: no
 
 __java_packages:
-  - openjdk-7-jre-headless
+  - openjdk-8-jre-headless

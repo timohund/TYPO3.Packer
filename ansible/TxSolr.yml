@@ -32,8 +32,18 @@
     }
     - {
         role: solr,
-        tags: solr-dev-master,
+        tags: solr-8.2,
         solr_port: 8083,
+        solr_version: '4.10.4',
+        solr_install_path: '/opt/solr_typo3_8.2',
+        solr_init_service_name: 'solr_typo3_8_2',
+        solr_home: '/var/solr_typo3_8.2',
+        solr_log_file_path: '/var/log/solr.8.2.log'
+    }
+    - {
+        role: solr,
+        tags: solr-dev-master,
+        solr_port: 8084,
         solr_version: '4.10.4',
         solr_install_path: '/opt/solr_typo3_dev-master',
         solr_init_service_name: 'solr_typo3_dev-master',
@@ -43,12 +53,13 @@
     - { role: solr,      tags: solr }
     - { role: common,    tags: common }
     - { role: geerlingguy.java, tags: java }
+    - { role: geerlingguy.daemonize, tags: daemonize }
     - { role: php-ondrej,   tags: php-ondrej }
     - { role: mariadb,   tags: mariadb }
     - { role: phpcommon, tags: phpcommon }
     - { role: phpbrew,   tags: phpbrew }
     - { role: hhvm,      tags: hhvm }
-    - { role: composer,  tags: composer }
+    - { role: composer-shallow,  tags: composer-shallow }
     - { role: typo3,     tags: typo3 }
     - { role: typo3-solr, tags: typo3-solr }
     - { role: xhprof,    tags: xhprof }

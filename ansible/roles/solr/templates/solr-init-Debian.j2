@@ -5,8 +5,14 @@
 # This script will launch Solr in a mode that will automatically respawn if it
 # crashes. Output will be sent to $LOG_FILE. A PID file will be created in the
 # standard location.
-#
 # Adapted by Jeff Geerling from http://stackoverflow.com/a/8014720/100134
+
+### BEGIN INIT INFO
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Solr
+# Description:       Apache Solr Server
+### END INIT INFO
 
 SOLR_DIR="{{ solr_install_path }}/example"
 JAVA_OPTIONS="-Dsolr.solr.home={{ solr_home }} -Djetty.host={{ solr_host }} -Djetty.port={{ solr_port }} -Xms{{ solr_xms }} -Xmx{{ solr_xmx }}"

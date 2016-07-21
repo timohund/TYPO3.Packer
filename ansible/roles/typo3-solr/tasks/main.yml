@@ -7,7 +7,7 @@
 - name: add hosts entry
   lineinfile: dest=/etc/hosts line='127.0.0.1 {{ item.key }}' owner=root group=root mode=0644
   with_dict: typo3.cms.sites
-  when: item.key | match('^((6|7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
   ignore_errors: yes
 
 - name: get pagebrowser extension for TYPO3 6.x
@@ -34,20 +34,20 @@
 - name: get solr extension for TYPO3 7.x
   become: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && composer require apache-solr-for-typo3/solr:dev-master"
-  when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((7|8)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
 - name: typo3_console install extension solr for 6.x and 7.x
   sudo: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install solr"
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
 - name: install solr core configuration from extension
   shell: "rm -fR /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/* && cp -R {{ typo3_webroot }}{{ item.key }}/typo3conf/ext/solr/Resources/Solr/* /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/"
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
@@ -56,7 +56,7 @@
 ##
 - name: install solr plugins for TYPO3 7.x
   shell: "mkdir -p /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/typo3lib && wget https://github.com/TYPO3-Solr/solr-typo3-plugin/releases/download/release-1_3_0/solr-typo3-plugin-1.3.0.jar -O  /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/typo3lib/solr-typo3-plugin-1.3.0.jar"
-  when: item.key | match('^((7)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((7|8)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
@@ -92,30 +92,30 @@
 ##
 - name: mv dist and contrib to core folder
   shell: "mv /opt/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/contrib /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/ && mv /opt/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/dist /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/"
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
 - name: Copy solr.xml file
   copy: src=solr.xml dest=/var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/ force=yes
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
 
 - name: Copy tx_solr setup dump
   become: vagrant
   copy: src=configure_tx_solr_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}.sql dest=/tmp force=yes
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
 
 - name: Import tx_solr setup dump
   become: vagrant
   shell: "mysql -uroot -psupersecret {{ item.key | regex_replace('\\.', '_') }} < /tmp/configure_tx_solr_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}.sql"
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
 
 - name: Update solr connections
   shell: "php {{ typo3_webroot }}{{ item.key }}/typo3/cli_dispatch.phpsh solr updateConnections"
-  when: item.key | match('^((6|7)\\.(\d)|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: typo3.cms.sites
   ignore_errors: yes
