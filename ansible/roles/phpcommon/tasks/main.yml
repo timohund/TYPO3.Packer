@@ -24,8 +24,6 @@
   with_nested:
     - "{{ php_ondrej_versions }}"
     - ['apache2', 'cli', 'fpm']
-  notify:
-   - restart php services
   ignore_errors: yes
 
 - name: Customize PHP fpm configuration files
@@ -38,8 +36,6 @@
   with_nested:
     - "{{ php_ondrej_versions }}"
     - "{{ php_ini }}"
-  notify:
-   - restart php services
 
 - name: Customize PHP cli configuration file
   ini_file: >

@@ -29,4 +29,3 @@
   with_items:
     - "{{ php_ondrej_versions }}"
   ignore_errors: yes
-  notify: restart php services

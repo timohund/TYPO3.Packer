@@ -18,6 +18,4 @@
   with_nested:
     - "{{ php_ondrej_versions }}"
     - "{{ php_xdebug_ini }}"
-  notify:
-   - restart php services
   ignore_errors: yes

@@ -10,8 +10,6 @@
   with_nested:
     - "{{ php_ondrej_versions }}"
     - "{{ php_opcache_ini }}"
-  notify:
-   - restart php services
   ignore_errors: yes
 
 - name: Disable PHP Opcache in Development context
@@ -24,7 +22,5 @@
   with_nested:
     - "{{ php_ondrej_versions }}"
     - "{{ php_opcache_ini }}"
-  notify:
-   - restart php services
   ignore_errors: yes
   when: context == "Development"

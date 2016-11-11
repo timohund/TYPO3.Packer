@@ -7,8 +7,6 @@
     update_cache=yes
     cache_valid_time={{ apt_cache_valid_time }}
   with_items: "{{ php_ondrej_apt_packages }}"
-  notify:
-    - restart php services
   tags: [packages,php,fpm]
 
 - name: Copy the PHP configuration file
@@ -21,8 +19,6 @@
   with_nested:
     - "{{ php_ondrej_versions }}"
     - "{{ php_ondrej_ini }}"
-  notify:
-   - restart php services
   tags: [configuration,php,fpm]
 
 - name: Copy the FPM configuration
@@ -35,8 +31,6 @@
   with_nested:
     - "{{ php_ondrej_versions }}"
     - "{{ php_ondrej_config }}"
-  notify:
-   - restart php services
   tags: [configuration,php,fpm]
 
 - name: Delete the include line from the ini file
@@ -48,8 +42,6 @@
     backup=no
   with_items:
     - "{{ php_ondrej_versions }}"
-  notify:
-   - restart php services
   tags: [configuration,php,fpm]
 
 - name: Re-add the include line to the ini file
@@ -62,8 +54,6 @@
     backup=no
   with_items:
     - "{{ php_ondrej_versions }}"
-  notify:
-   - restart php services
   tags: [configuration,php,fpm]
 
 - name: Delete the default POOL configuration file
@@ -84,8 +74,6 @@
     - "{{ php_ondrej_versions }}"
     - "{{ php_ondrej_pools }}"
   when: php_ondrej_pools|lower != 'none'
-  notify:
-   - restart php services
   tags: [configuration,php,fpm]
 
 - name: Set correct listening sockets

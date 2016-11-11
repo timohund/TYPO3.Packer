@@ -2,5 +2,3 @@
 
 - include: phpbrew.yml
   when: php_brew_enable
-  notify:
-    - restart php services
