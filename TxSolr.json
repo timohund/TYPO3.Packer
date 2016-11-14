@@ -43,7 +43,6 @@
                 "ansible/roles/solr",
                 "ansible/roles/geerlingguy.daemonize",
                 "ansible/roles/geerlingguy.java",
-                "ansible/roles/hhvm",
                 "ansible/roles/mariadb",
                 "ansible/roles/memcached",
                 "ansible/roles/nginx",
@@ -234,6 +233,6 @@
         "ssh_password": "vagrant",
         "ssh_username": "vagrant",
         "update": "false",
-        "version": "2.4.0"
+        "version": "2.5.0"
     }
 }

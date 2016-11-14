@@ -10,8 +10,6 @@ nginx_http_params:
   - keepalive_requests 1000
 
 nginx_configs:
-  upstream_hhvm:
-    - upstream hhvm { server unix:/var/run/hhvm/sock; }
   upstream_php:
     - upstream php { server unix:/var/run/php/7.0-fpm.sock; }
   upstream_php55:

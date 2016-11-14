@@ -178,9 +178,9 @@
 #  with_items: "{{ php_brew_versions }}"
 #  tags: test
 
-- name: Start php-fpm services
-  service: name=php{{ item }}-fpm state=started enabled=yes
-  with_items: "{{ php_brew_versions }}"
+#- name: Start php-fpm services
+#  service: name=php{{ item }}-fpm state=started enabled=yes
+#  with_items: "{{ php_brew_versions }}"
 
 - name: Make the bin dir exists
   become: vagrant

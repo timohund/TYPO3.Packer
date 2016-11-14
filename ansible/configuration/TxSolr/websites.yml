@@ -2,7 +2,7 @@
 
 nginx_sites:
   local.typo3.org:
-    - set $upstream hhvm
+    - set $upstream php
     - listen 80 default_server
     - server_name _ ~^(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?local.typo3.org$
     - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }

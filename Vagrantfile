@@ -103,8 +103,9 @@ SCRIPT
 VAGRANTFILE_API_VERSION = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-	config.vm.box = 'Michiel/Development'
-	config.vm.boot_timeout = BOOT_TIMEOUT
+	config.vm.box = 'gbarbieru/xenial'
+	config.vm.box_url = 'https://atlas.hashicorp.com/gbarbieru/boxes/xenial'
+	config.vm.boot_timeout = 240
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
 # 		'6.2.local.typo3.org',
@@ -160,8 +161,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
 	config.vm.provision "ansible" do |ansible|
-#  		ansible.verbose = "vvv"
-		ansible.playbook = "ansible/Development.yml"
+  		ansible.verbose = "vvv"
+		ansible.playbook = "ansible/TxSolr.yml"
 		ansible.limit = "all"
 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
 		ansible.extra_vars = {
