@@ -21,6 +21,6 @@
   with_items: "{{ solr_cores }}"
 
 - name: Create configured cores.
-  shell: "{{ solr_install_path }}/bin/solr create -c {{ item }}"
+  shell: "{{ solr_install_path }}/bin/solr create -c {{ item }} -force"
   when: "'{{ item }}' not in '{{ solr_cores_current.content }}'"
   with_items: "{{ solr_cores }}"

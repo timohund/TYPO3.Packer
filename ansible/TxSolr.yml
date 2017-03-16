@@ -9,6 +9,7 @@
     - configuration/TxSolr/websites.yml
     - configuration/TxSolr/typo3.yml
   roles:
+    - { role: common,    tags: common }
     - { role: geerlingguy.java, tags: java }
     - {
         role: solr,
@@ -24,40 +25,42 @@
         role: solr,
         tags: solr-7.6,
         solr_port: 8082,
-        solr_version: '4.10.4',
-        solr_install_path: '/opt/solr_typo3_7.6',
+        solr_version: '6.3.0',
+        solr_install_path: '/opt/solr_typo3_7_6',
+        solr_config_file: '/etc/solr_typo3_7_6.in.sh',
         solr_service_name: 'solr_typo3_7_6',
         solr_home: '/var/solr_typo3_7.6',
-        solr_log_file_path: '/var/log/solr.7.6.log'
+        solr_log_file_path: '/var/log/solr.7.6.log',
+        solr_cores:
     }
     - {
         role: solr,
-        tags: solr-8.4,
+        tags: solr-8.6,
         solr_port: 8083,
-        solr_version: '4.10.4',
-        solr_install_path: '/opt/solr_typo3_8.4',
-        solr_service_name: 'solr_typo3_8_4',
-        solr_home: '/var/solr_typo3_8.4',
-        solr_log_file_path: '/var/log/solr.8.4.log'
+        solr_version: '6.3.0',
+        solr_install_path: '/opt/solr_typo3_8_6',
+        solr_config_file: '/etc/solr_typo3_8_6.in.sh',
+        solr_service_name: 'solr_typo3_8_6',
+        solr_home: '/var/solr_typo3_8.6',
+        solr_log_file_path: '/var/log/solr.8.6.log',
+        solr_cores:
     }
     - {
         role: solr,
         tags: solr-dev-master,
         solr_port: 8084,
-        solr_version: '4.10.4',
+        solr_version: '6.3.0',
         solr_install_path: '/opt/solr_typo3_dev-master',
+        solr_config_file: '/etc/solr_typo3_dev-master.in.sh',
         solr_service_name: 'solr_typo3_dev-master',
         solr_home: '/var/solr_typo3_dev-master',
-        solr_log_file_path: '/var/log/solr.dev-master.log'
+        solr_log_file_path: '/var/log/solr.dev-master.log',
+        solr_cores:
     }
-    - { role: solr,      tags: solr }
-    - { role: common,    tags: common }
-    - { role: geerlingguy.java, tags: java }
     - { role: geerlingguy.daemonize, tags: daemonize }
     - { role: php-ondrej,   tags: php-ondrej }
     - { role: mariadb,   tags: mariadb }
     - { role: phpcommon, tags: phpcommon }
-    - { role: phpbrew,   tags: phpbrew }
     - { role: composer-shallow,  tags: composer-shallow }
     - { role: typo3,     tags: typo3 }
     - { role: typo3-solr, tags: typo3-solr }

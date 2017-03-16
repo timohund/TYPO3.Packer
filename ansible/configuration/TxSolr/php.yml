@@ -62,9 +62,10 @@ php_ondrej_ini:
   - option: "pdo_mysql.cache_size"
     section: "Pdo_mysql"
     value: "2000"
+  - option: "always_populate_raw_post_data"
+    section: "PHP"
+    value: "-1"
 
-php_brew_enable: yes
+php_brew_enable: no
 
-# Make sure you also adjust the upstreams in nginx_configs after changing this
-php_brew_versions:
-  - '5.5.32'
+

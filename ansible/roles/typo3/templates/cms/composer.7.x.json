@@ -70,10 +70,7 @@
       "TYPO3\\CMS\\Sv\\Tests\\": "typo3_src/typo3/sysext/sv/Tests/",
       "TYPO3\\CMS\\Workspaces\\Tests\\": "typo3_src/typo3/sysext/workspaces/Tests/",
       "TYPO3\\CMS\\Recycler\\Tests\\": "typo3_src/typo3/sysext/recycler/Tests/"
-    },
-    "classmap": [
-      "typo3_src/typo3/sysext/extbase/Tests/Unit/Object/Container/Fixtures/"
-    ]
+    }
   },
   "include-path": [
     "vendor/pear/http_request2/",
@@ -90,5 +87,11 @@
   "require-dev": {
     "mikey179/vfsStream": "1.6.0",
     "phpunit/phpunit": "~4.8.0"
+  },
+  "extra": {
+    "typo3/cms": {
+      "web-dir": ".",
+      "prepare-web-dir": true
+    }
   }
 }

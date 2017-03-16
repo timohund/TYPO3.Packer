@@ -3,6 +3,9 @@
   yum: name=lsof state=present
   when: ansible_os_family == "RedHat"
 
+- name: Copy configuration.
+  shell: "cp {{ solr_workspace }}/{{ solr_filename }}/bin/solr.in.sh {{ solr_config_file }}"
+
 - name: Run Solr installation script.
   shell: >
     {{ solr_workspace }}/{{ solr_filename }}/bin/install_solr_service.sh

@@ -9,10 +9,10 @@ typo3_composer_preferred_install: 'source'
 typo3:
   cms:
     sites:
-      6.2.local.typo3.org: '6.2.28'
-      7.6.local.typo3.org: '7.6.12'
-      8.4.local.typo3.org: '8.4.0'
-      dev-master.local.typo3.org: 'dev-master as 8.5.x-dev'
+      6.2.local.typo3.org: '6.2.30'
+      7.6.local.typo3.org: '7.6.16'
+      8.6.local.typo3.org: '8.6.1'
+      dev-master.local.typo3.org: 'dev-master as 8.7.x-dev'
     extensions:
       enabled:
         - scheduler
