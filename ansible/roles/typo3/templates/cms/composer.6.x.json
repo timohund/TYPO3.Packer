@@ -23,7 +23,7 @@
     }
   ],
   "config": {
-    "git-clone-depth": 100,
+    "git-clone-depth": 10,
     "process-timeout": 900,
     "bin-dir": "bin",
     "preferred-install": "{{ typo3_composer_preferred_install }}",
