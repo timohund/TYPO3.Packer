@@ -158,3 +158,8 @@
     regexp='PATH=(["]*)((?!.*?/home/vagrant/.config/composer/vendor/bin).*?)(["]*)$'
     line="PATH=\1\2:/home/vagrant/.config/composer/vendor/bin\3"
 
+- name: set composer timeout
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    line="COMPOSER_PROCESS_TIMEOUT=900"
