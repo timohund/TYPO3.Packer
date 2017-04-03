@@ -183,6 +183,6 @@
         "ssh_password": "vagrant",
         "ssh_username": "vagrant",
         "update": "false",
-        "version": "4.0.2"
+        "version": "4.0.3"
     }
 }
