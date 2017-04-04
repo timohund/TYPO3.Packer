@@ -35,14 +35,14 @@
     }
     - {
         role: solr,
-        tags: solr-8.6,
+        tags: solr-8.7,
         solr_port: 8083,
         solr_version: '6.3.0',
-        solr_install_path: '/opt/solr_typo3_8_6',
-        solr_config_file: '/etc/solr_typo3_8_6.in.sh',
-        solr_service_name: 'solr_typo3_8_6',
-        solr_home: '/var/solr_typo3_8.6',
-        solr_log_file_path: '/var/log/solr.8.6.log',
+        solr_install_path: '/opt/solr_typo3_8_7',
+        solr_config_file: '/etc/solr_typo3_8_7.in.sh',
+        solr_service_name: 'solr_typo3_8_7',
+        solr_home: '/var/solr_typo3_8.7',
+        solr_log_file_path: '/var/log/solr.8.7.log',
         solr_cores:
     }
     - {
