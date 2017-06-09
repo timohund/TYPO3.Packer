@@ -1,15 +1,18 @@
 ---
 
 - name: Remove xhprof.local.typo3.org directory
-  become: vagrant
+  become: true
+  become_user: vagrant
   file: path={{ typo3_webroot }}/xhprof.local.typo3.org state=absent
 
 - name: Create xhprof.local.typo3.org directory
-  become: vagrant
+  become: true
+  become_user: vagrant
   file: path={{ typo3_webroot }}/xhprof.local.typo3.org state=directory mode=0775
 
 - name: Setup xhprof site
-  become: vagrant
+  become: true
+  become_user: vagrant
   git: repo=https://github.com/Tuurlijk/xhprof.git dest={{ typo3_webroot }}/xhprof.local.typo3.org force=yes
 
 - name: Create xhprof database
@@ -39,6 +42,7 @@
     - graphviz
 
 - name: Copy xhprof configuration file
-  become: vagrant
+  become: true
+  become_user: vagrant
   template: src=config.php dest={{ typo3_webroot }}/xhprof.local.typo3.org/xhprof_lib/config.php
 

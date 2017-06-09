@@ -49,7 +49,7 @@
         role: solr,
         tags: solr-dev-master,
         solr_port: 8084,
-        solr_version: '6.3.0',
+        solr_version: '6.5.1',
         solr_install_path: '/opt/solr_typo3_dev-master',
         solr_config_file: '/etc/solr_typo3_dev-master.in.sh',
         solr_service_name: 'solr_typo3_dev-master',

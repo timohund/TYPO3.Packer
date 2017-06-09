@@ -11,32 +11,45 @@
   ignore_errors: yes
 
 - name: get pagebrowser extension for TYPO3 6.x
-  become: vagrant
+  become: true
+  become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }}/typo3conf/ext && mkdir pagebrowse && cd pagebrowse && wget http://typo3.org/extensions/repository/download/pagebrowse/1.3.4/zip/ -O  pagebrowse.zip && unzip pagebrowse.zip"
   when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d))\\.')
   with_dict: "{{ typo3.cms.sites }}"
   ignore_errors: yes
 
 - name: typo3_console install extension pagebrowser for 6.x
-  become: vagrant
+  become: true
+  become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install pagebrowse"
   when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d))\\.')
   with_dict: "{{ typo3.cms.sites }}"
   ignore_errors: yes
 
 - name: get solr extension for TYPO3 6.x
-  become: vagrant
+  become: true
+  become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }}/typo3conf/ext && wget https://github.com/TYPO3-Solr/ext-solr/archive/3.0.2.tar.gz && tar xvfz 3.0.2.tar.gz && mv ext-solr-3.0.2 solr"
   when: item.key | match('^((6)\\.(2|3|4|5|6|7|8|9|1\d))\\.')
   with_dict: "{{ typo3.cms.sites }}"
   ignore_errors: yes
 
-- name: get solr extension for TYPO3 7.x
-  become: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }} && composer require apache-solr-for-typo3/solr:6.0.0"
-  when: item.key | match('^((7|8)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+- name: get solr extension for TYPO3 7.x and 8
+  become: true
+  become_user: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && composer require apache-solr-for-typo3/solr:6.1.0"
+  when: item.key | match('^((7|8)\\.(2|3|4|5|6|7|8|9|1\d))\\.')
   with_dict: "{{ typo3.cms.sites }}"
   ignore_errors: yes
+
+- name: get solr extension for TYPO3 9.x
+  become: true
+  become_user: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && composer require apache-solr-for-typo3/solr:dev-master"
+  when: item.key | match('^((9)\\.(2|3|4|5|6|7|8|9|1\d)|dev-master|master|review)\\.')
+  with_dict: "{{ typo3.cms.sites }}"
+  ignore_errors: yes
+
 
 - name: typo3_console install extension solr for 6.x and 7.x
   sudo: vagrant
@@ -47,7 +60,7 @@
 
 
 ##
-# EXT:solr for TYPO3 7 & 8
+# EXT:solr for TYPO3 7 & 8 & dev-master
 ##
 - name: install solr core configuration from extension for TYPO3 7.6
   shell: "mkdir -p /var/solr_typo3_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}/data/data"
@@ -116,13 +129,15 @@
 ##
 
 - name: Copy tx_solr setup dump
-  become: vagrant
+  become: true
+  become_user: vagrant
   copy: src=configure_tx_solr_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}.sql dest=/tmp force=yes
   when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: "{{ typo3.cms.sites }}"
 
 - name: Import tx_solr setup dump
-  become: vagrant
+  become: true
+  become_user: vagrant
   shell: "mysql -utypo3 -psupersecret {{ item.key | regex_replace('\\.', '_') }} < /tmp/configure_tx_solr_{{ item.key | regex_replace('\\.local\\.typo3\\.org','') }}.sql"
   when: item.key | match('^((6|7|8)\\.(\d)|dev-master|master|review)\\.')
   with_dict: "{{ typo3.cms.sites }}"
@@ -144,8 +159,9 @@
 # Install php-cs-fixer
 ##
 - name: Install php-cs-fixer as global composer binary
-  become: vagrant
-  command: composer global require friendsofphp/php-cs-fixer:v1.13.1
+  become: true
+  become_user: vagrant
+  command: composer global require friendsofphp/php-cs-fixer:v2.3.2
 
 ##
 # Add composer bin path to PATH variable

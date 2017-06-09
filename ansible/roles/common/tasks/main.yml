@@ -69,7 +69,8 @@
   with_items: ['de_DE.UTF-8', 'en_GB.UTF-8', 'nl_NL.UTF-8']
 
 - name: Setup dircolors
-  become: vagrant
+  become: true
+  become_user: vagrant
   copy: src=dircolors dest=~/.dircolors force=no
 
 - name: Setup postfix as a null mailer

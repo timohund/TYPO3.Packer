@@ -183,15 +183,18 @@
   with_items: "{{ php_brew_versions }}"
 
 - name: Make the bin dir exists
-  become: vagrant
+  become: true
+  become_user: vagrant
   file: path=/home/vagrant/bin state=directory mode=0775
 
 - name: Create symlinks for most recent php versions
-  become: vagrant
+  become: true
+  become_user: vagrant
   file: src=/usr/local/phpbrew/php/php-{{ item }}/bin/php dest=/home/vagrant/bin/php{{ item }} state=link force=yes
   with_items: "{{ php_brew_versions }}"
 
 - name: Create shorter symlinks for most recent php versions
-  become: vagrant
+  become: true
+  become_user: vagrant
   file: src=/usr/local/phpbrew/php/php-{{ item }}/bin/php dest=/home/vagrant/bin/php{{ item | regex_replace('^(\d)\.(\d)\.\d*$', '\\1\\2') }} state=link force=yes
   with_items: "{{ php_brew_versions }}"

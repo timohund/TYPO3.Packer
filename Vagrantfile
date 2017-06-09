@@ -32,11 +32,11 @@ host = RbConfig::CONFIG['host_os']
 if host =~ /darwin/
 	cpus = `sysctl -n hw.physicalcpu`.to_i
 	# sysctl returns Bytes and we need to convert to MB
-	mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
+	mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 2
 elsif host =~ /linux/
 	cpus = `nproc`.to_i
 	# meminfo shows KB and we need to convert to MB
-	mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+	mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 2
 else # sorry Windows folks, I can't help you
 	cpus = 1
 	mem = 1024
@@ -103,7 +103,7 @@ SCRIPT
 VAGRANTFILE_API_VERSION = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-	config.vm.box = 'Michiel/Development'
+	config.vm.box = 'ubuntu/xenial64'
 	config.vm.boot_timeout = BOOT_TIMEOUT
 # If you have no Internet access (can not resolve *.local.typo3.org), you can use host aliases:
 # 	config.hostsupdater.aliases = [
@@ -122,9 +122,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# SSH
 	config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'" # avoids 'stdin: is not a tty' error.
 	config.ssh.forward_agent = true
+	config.ssh.username = "ubuntu"
+	config.ssh.password = "680ff2ed761e8e1387ee1bf5"
+
 	# 	config.vm.provision "shell", inline: "echo -e '#{File.read("#{Dir.home}/.ssh/id_rsa")}' > '/home/vagrant/.ssh/id_rsa'"
 	# 	config.ssh.username = "root"
 	# 	config.ssh.private_key_path = "phusion.key"
+	config.vm.provision "shell", inline: <<-SHELL
+		sudo bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qy python-minimal)"
+		if id "$1" >/dev/null 2>&1; then
+			echo "user exists"
+		else
+			sudo useradd -pvagrant -s/bin/bash -m vagrant
+			echo vagrant ALL=NOPASSWD:ALL > /etc/sudoers.d/vagrant
+			sudo touch /home/vagrant/.zshrc
+		 fi
+	SHELL
 
 	# Virtualbox
 	config.vm.provider :virtualbox do |vb|
@@ -157,15 +170,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Show information what to do after the machine has booted
 	config.vm.provision "shell", inline: $script, run: "always"
-
 	# Ansible | http://docs.ansible.com/playbooks_best_practices.html
+
 	config.vm.provision "ansible" do |ansible|
-#  		ansible.verbose = "vvv"
-		ansible.playbook = "ansible/Development.yml"
+		ansible.verbose = "vvv"
+		ansible.playbook = "ansible/TxSolr.yml"
 		ansible.limit = "all"
 		ansible.raw_arguments = ENV['ANSIBLE_ARGS']
 		ansible.extra_vars = {
-			ansible_ssh_user: 'vagrant',
+			ansible_ssh_user: 'ubuntu',
 			hostname: 'local.typo3.org'
 		}
 	end

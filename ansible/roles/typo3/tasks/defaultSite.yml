@@ -1,9 +1,11 @@
 ---
 
 - name: Create local.typo3.org directory
-  become: vagrant
+  become: true
+  become_user: vagrant
   file: path={{ typo3_webroot }}/local.typo3.org state=directory mode=0775
 
 - name: Setup homestead default site
-  become: vagrant
+  become: true
+  become_user: vagrant
   copy: src=index.php dest={{ typo3_webroot }}/local.typo3.org/index.php force=yes

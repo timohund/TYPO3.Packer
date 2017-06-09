@@ -23,7 +23,8 @@
   lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost local.typo3.org' owner=root group=wheel mode=0644
 
 - name: Setup dircolors
-  become: vagrant
+  become: true
+  become_user: vagrant
   copy: src=dircolors dest=~/.dircolors force=no
 
 #- name: Setup postfix as a null mailer
