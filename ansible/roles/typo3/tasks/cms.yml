@@ -106,20 +106,47 @@
   with_dict: "{{typo3.cms.sites }}"
   tags: typo3-cms-composer
 
-- name: typo3_console cache warmup
+- name: typo3_console generate packagestate
   become: true
   become_user: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms cache:warmup"
-  when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms install:generatepackagestates"
+  when: item.key | match('^((8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-console
 
+##
+# 6.x and 7.x only
+##
+- name: typo3_console cache warmup
+  become: true
+  become_user: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms cache:warmup"
+  when: item.key | match('^((6|7)\\.\d)\\.')
+  with_dict: "{{typo3.cms.sites }}"
+  ignore_errors: yes
+  tags: typo3-console
+
+##
+# 6.x and 7.x
+##
 - name: typo3_console install extension accountmanagement
   become: true
   become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:install accountmanagement"
-  when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7)\\.\d)\\.')
+  with_dict: "{{typo3.cms.sites }}"
+  ignore_errors: yes
+  tags: typo3-console
+
+##
+# 8.x
+##
+- name: typo3_console install extension accountmanagement
+  become: true
+  become_user: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:setup accountmanagement"
+  when: item.key | match('^((8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-console
@@ -128,16 +155,33 @@
   become: true
   become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms user:create --username _cli_scheduler"
-  when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7)\\.\d)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-console
 
+##
+# 6.x and 7.x
+##
 - name: typo3_console install extensions
   become: true
   become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:install {{ item[1] }}"
-  when: item[0] | match('^((6|7|8)\\.\d|dev-master|master|review)\\.') and typo3.cms.extensions.enabled is defined
+  when: item[0] | match('^((6|7)\\.\d)\\.') and typo3.cms.extensions.enabled is defined
+  with_nested:
+    - "{{ typo3.cms.sites.keys() }}"
+    - "{{ typo3.cms.extensions.enabled }}"
+  ignore_errors: yes
+  tags: typo3-console
+
+##
+# 8.x
+##
+- name: typo3_console install extensions
+  become: true
+  become_user: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:setup {{ item[1] }}"
+  when: item[0] | match('^((8)\\.\d|dev-master|master|review)\\.')
   with_nested:
     - "{{ typo3.cms.sites.keys() }}"
     - "{{ typo3.cms.extensions.enabled }}"
@@ -148,27 +192,39 @@
   become: true
   become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:uninstall {{ item[1] }}"
-  when: item[0] | match('^((6|7|8)\\.\d|dev-master|master|review)\\.') and typo3.cms.extensions.disabled is defined
+  when: item[0] | match('^((6|7)\\.\d)\\.') and typo3.cms.extensions.disabled is defined
   with_nested:
     - "{{ typo3.cms.sites.keys() }}"
     - "{{ typo3.cms.extensions.disabled }}"
   ignore_errors: yes
   tags: typo3-console
 
+##
+# 6.x and 7.x
+##
 - name: typo3_console update distribution list
   become: true
   become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms distribution:list"
-  when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7)\\.\d)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-console
 
-- name: typo3_console install introduction distribution
+- name: typo3_console install introduction distribution for 6 & 7
   become: true
   become_user: vagrant
   shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:install realurl; ./typo3cms extension:install css_styled_content; ./typo3cms extension:install bootstrap_package; ./typo3cms extension:install introduction; ./typo3cms cache:flush"
-  when: item.key | match('^((6|7|8)\\.\d|dev-master|master|review)\\.')
+  when: item.key | match('^((6|7)\\.\d)\\.')
+  with_dict: "{{typo3.cms.sites }}"
+  ignore_errors: yes
+  tags: typo3-console
+
+- name: typo3_console install introduction distribution 8 and dev-master
+  become: true
+  become_user: vagrant
+  shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:setup rte-ckeditor ./typo3cms extension:setup css_styled_content; ./typo3cms extension:setup bootstrap_package; ./typo3cms extension:setup introduction; ./typo3cms cache:flush"
+  when: item.key | match('^((8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
   tags: typo3-console

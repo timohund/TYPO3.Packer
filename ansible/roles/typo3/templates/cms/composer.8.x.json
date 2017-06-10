@@ -78,6 +78,7 @@
   ],
   "require": {
     "typo3/cms": "{{ item.value }}",
+    "typo3/cms-rte-ckeditor": "^8.7",
     "helhum/typo3-console": "^4.6",
     "maxserv/accountmanagement": "*",
     "7elix/styleguide": "*",
