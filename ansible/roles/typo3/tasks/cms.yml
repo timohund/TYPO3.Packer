@@ -226,7 +226,6 @@
   shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:activate tstemplate; ./typo3cms extension:activate reports; ./typo3cms extension:activate setup; ./typo3cms extension:activate info; ./typo3cms extension:activate rte_ckeditor; ./typo3cms extension:activate css_styled_content; ./typo3cms extension:activate bootstrap_package; ./typo3cms extension:activate introduction; ./typo3cms cache:flush;"
   when: item.key | match('^((8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
-  ignore_errors: yes
   tags: typo3-console
 
 - name: Setup git push for typo3_console CMS Sources 6.x

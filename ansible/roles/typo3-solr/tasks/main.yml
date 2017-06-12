@@ -59,15 +59,6 @@
   with_dict: "{{ typo3.cms.sites }}"
   ignore_errors: yes
 
-- name: typo3_console generate packagestate after solr install
-  become: true
-  become_user: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms install:generatepackagestates"
-  when: item.key | match('^((8)\\.\d|dev-master|master|review)\\.')
-  with_dict: "{{typo3.cms.sites }}"
-  ignore_errors: yes
-  tags: typo3-console
-
 - name: typo3_console flush cache after install of solr for 8.x +
   shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms cache:flush"
   become: true
@@ -77,7 +68,7 @@
   ignore_errors: yes
 
 - name: typo3_console install extension solr for 8.x +
-  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:setup solr"
+  shell: "cd {{ typo3_webroot }}{{ item.key }} && ./typo3cms extension:activate solr"
   become: true
   become_user: vagrant
   when: item.key | match('^((8)\\.(\d)|dev-master|master|review)\\.')
