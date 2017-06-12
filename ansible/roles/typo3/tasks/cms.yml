@@ -180,7 +180,7 @@
 - name: typo3_console install extensions
   become: true
   become_user: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:setup {{ item[1] }}"
+  shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:activate {{ item[1] }}"
   when: item[0] | match('^((8)\\.\d|dev-master|master|review)\\.')
   with_nested:
     - "{{ typo3.cms.sites.keys() }}"
@@ -191,7 +191,7 @@
 - name: typo3_console uninstall extensions
   become: true
   become_user: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:uninstall {{ item[1] }}"
+  shell: "cd {{ typo3_webroot }}{{ item[0] }} && ./typo3cms extension:deactivate {{ item[1] }}"
   when: item[0] | match('^((6|7)\\.\d)\\.') and typo3.cms.extensions.disabled is defined
   with_nested:
     - "{{ typo3.cms.sites.keys() }}"
@@ -223,7 +223,7 @@
 - name: typo3_console install introduction distribution 8 and dev-master
   become: true
   become_user: vagrant
-  shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:setup tstemplate ./typo3cms extension:setup reports ./typo3cms extension:setup setup ./typo3cms extension:setup info ./typo3cms extension:setup rte-ckeditor ./typo3cms extension:setup css_styled_content; ./typo3cms extension:setup bootstrap_package; ./typo3cms extension:setup introduction; ./typo3cms cache:flush"
+  shell: "cd {{ typo3_webroot }}{{ item.key }}; ./typo3cms extension:activate tstemplate; ./typo3cms extension:activate reports; ./typo3cms extension:activate setup; ./typo3cms extension:activate info; ./typo3cms extension:activate rte_ckeditor; ./typo3cms extension:activate css_styled_content; ./typo3cms extension:activate bootstrap_package; ./typo3cms extension:activate introduction; ./typo3cms cache:flush;"
   when: item.key | match('^((8)\\.\d|dev-master|master|review)\\.')
   with_dict: "{{typo3.cms.sites }}"
   ignore_errors: yes
