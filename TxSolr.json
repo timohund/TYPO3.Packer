@@ -141,19 +141,13 @@
                     }
                 },
                 "keep_input_artifact": false,
-                "output": "box/{{.Provider}}/ubuntu1604-{{user `box_type`}}-{{user `version`}}.box"
+                "output": "{{.Provider}}-{{user `box_type`}}-{{user `version`}}.box"
             },
             {
-                "type": "atlas",
-                "only": [
-                    "virtualbox-iso"
-                ],
-                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-                "artifact_type": "vagrant.box",
-                "metadata": {
-                    "provider": "virtualbox",
-                    "version": "{{user `version`}}"
-                }
+                "type": "vagrant-cloud",
+                "box_tag": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+                "access_token": "{{user `cloud_token`}}",
+                "version": "{{user `version`}}"
             }
         ]
     ],
@@ -163,7 +157,8 @@
         "atlas_name": "solr-typo3-devbox",
         "box_type": "solr-typo3-devbox",
         "cleanup_pause": "",
-        "compression_level": "7",
+        "cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+        "compression_level": "9",
         "custom_script": ".",
         "disk_size": "40690",
         "memory_size": "2048",
@@ -172,10 +167,10 @@
         "http_proxy": "{{env `http_proxy`}}",
         "https_proxy": "{{env `https_proxy`}}",
         "install_vagrant_key": "true",
-        "iso_checksum": "737ae7041212c628de5751d15c3016058b0e833fdc32e7420209b76ca3d0a535",
-        "iso_name": "ubuntu-16.04.2-server-amd64.iso",
+        "iso_checksum": "a06cd926f5855d4f21fb4bc9978a35312f815fbda0d0ef7fdc846861f4fc4600",
+        "iso_name": "ubuntu-16.04.3-server-amd64.iso",
         "iso_path": "iso",
-        "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04.2-server-amd64.iso",
+        "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04.3-server-amd64.iso",
         "no_proxy": "{{env `no_proxy`}}",
         "rsync_proxy": "{{env `rsync_proxy`}}",
         "hostname": "vagrant",
@@ -183,6 +178,6 @@
         "ssh_password": "vagrant",
         "ssh_username": "vagrant",
         "update": "false",
-        "version": "4.3.7"
+        "version": "4.5.0"
     }
 }
