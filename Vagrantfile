@@ -123,7 +123,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'" # avoids 'stdin: is not a tty' error.
 	config.ssh.forward_agent = true
 	config.ssh.username = "ubuntu"
-	config.ssh.password = "680ff2ed761e8e1387ee1bf5"
+	config.ssh.password = "6fa650a96545648d719b6660"
 
 	# 	config.vm.provision "shell", inline: "echo -e '#{File.read("#{Dir.home}/.ssh/id_rsa")}' > '/home/vagrant/.ssh/id_rsa'"
 	# 	config.ssh.username = "root"
