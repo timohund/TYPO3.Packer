@@ -44,8 +44,20 @@
   },
   "minimum-stability": "dev",
   "scripts": {
-    "post-update-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::setupConsole",
-    "post-install-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::setupConsole"
+    "package-states": [
+      "@php bin/typo3cms install:generatepackagestates"
+    ],
+    "folder-structure": [
+      "@php bin/typo3cms install:fixfolderstructure"
+    ],
+    "ext-setup": [
+      "@php bin/typo3cms install:extensionsetupifpossible"
+    ],
+    "post-autoload-dump": [
+      "@package-states",
+      "@folder-structure",
+      "@ext-setup"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
@@ -81,15 +93,55 @@
     "vendor/pear/net_url2/"
   ],
   "require": {
-    "typo3/cms": "{{ item.value }}",
+    "typo3/cms-about": "{{ item.value }}",
+    "typo3/cms-backend": "{{ item.value }}",
+    "typo3/cms-belog": "{{ item.value }}",
+    "typo3/cms-beuser": "{{ item.value }}",
+    "typo3/cms-core": "{{ item.value }}",
+    "typo3/cms-documentation": "{{ item.value }}",
+    "typo3/cms-extbase": "{{ item.value }}",
+    "typo3/cms-extensionmanager": "{{ item.value }}",
+    "typo3/cms-feedit": "{{ item.value }}",
+    "typo3/cms-felogin": "{{ item.value }}",
+    "typo3/cms-filelist": "{{ item.value }}",
+    "typo3/cms-filemetadata": "{{ item.value }}",
+    "typo3/cms-fluid": "{{ item.value }}",
+    "typo3/cms-fluid-styled-content": "{{ item.value }}",
+    "typo3/cms-form": "{{ item.value }}",
+    "typo3/cms-frontend": "{{ item.value }}",
+    "typo3/cms-impexp": "{{ item.value }}",
+    "typo3/cms-indexed-search": "{{ item.value }}",
+    "typo3/cms-info": "{{ item.value }}",
+    "typo3/cms-install": "{{ item.value }}",
+    "typo3/cms-lang": "{{ item.value }}",
+    "typo3/cms-linkvalidator": "{{ item.value }}",
+    "typo3/cms-lowlevel": "{{ item.value }}",
+    "typo3/cms-opendocs": "{{ item.value }}",
+    "typo3/cms-recordlist": "{{ item.value }}",
+    "typo3/cms-recycler": "{{ item.value }}",
+    "typo3/cms-reports": "{{ item.value }}",
+    "typo3/cms-rsaauth": "{{ item.value }}",
+    "typo3/cms-rte-ckeditor": "{{ item.value }}",
+    "typo3/cms-saltedpasswords": "{{ item.value }}",
+    "typo3/cms-scheduler": "{{ item.value }}",
+    "typo3/cms-setup": "{{ item.value }}",
+    "typo3/cms-sys-action": "{{ item.value }}",
+    "typo3/cms-sys-note": "{{ item.value }}",
+    "typo3/cms-t3editor": "{{ item.value }}",
+    "typo3/cms-taskcenter": "{{ item.value }}",
+    "typo3/cms-tstemplate": "{{ item.value }}",
+    "typo3/cms-viewpage": "{{ item.value }}",
+    "typo3/cms-workspaces": "{{ item.value }}",
     "7elix/styleguide": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.2.0",
     "mikey179/vfsStream": "~1.6.0",
+    "helhum/typo3-console": "^5.0",
+    "typo3/cms-introduction": "^3.0",
     "codeception/codeception": "^2.1",
     "se/selenium-server-standalone": "~2.53",
-    "7elix/styleguide": "~8.0.0",
+    "7elix/styleguide": "~9.0.0",
     "site5/phantoman": "^1.0",
     "jakoch/phantomjs-installer": "2.1.1-p01"
   },

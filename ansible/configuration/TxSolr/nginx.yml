@@ -24,6 +24,8 @@ nginx_configs:
     - upstream php70 { server unix:/var/run/php/7.0-fpm.sock; }
   upstream_php7_0_3:
     - upstream php7_0_3 { server unix:/var/run/php/7.0-fpm.sock; }
+  upstream_php72:
+    - upstream php72 { server unix:/var/run/php/7.2-fpm.sock; }
   upstream_xhprof:
     - upstream xhprof { server unix:/var/run/php/7.0-fpm.xhprof.sock; }
 

@@ -4,15 +4,15 @@ nginx_sites:
   local.typo3.org:
     - set $upstream php
     - listen 80 default_server
-    - server_name _ ~^(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?local.typo3.org$
-    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
+    - server_name _ ~^(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)?\.?local.typo3.org$
+    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}/local.typo3.org/"
     - "{{ nginx_fastcgi }}"
   local.typo3.org.ssl:
     - set $upstream php
     - listen 443 default_server http2
-    - server_name _ ~^(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?local.typo3.org$
-    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
+    - server_name _ ~^(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)?\.?local.typo3.org$
+    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}/local.typo3.org/"
     - "{{ nginx_fastcgi }}"
     - ssl on
@@ -20,10 +20,11 @@ nginx_sites:
     - ssl_certificate_key /etc/ssl/private/local.typo3.org.key
   typo3:
     - set $upstream php
-    - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?(?<version>.*)\.local.typo3.org$
+    - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)?\.?(?<version>.*)\.local.typo3.org$
     - if ($version ~ (6.*|7.*)) { set $upstream php56; }
     - if ($version ~ (8.*)) { set $upstream php70; }
-    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
+    - if ($version ~ (9.*)) { set $upstream php72; }
+    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
     - error_page 404 = @404
     - "{{ nginx_typo3_404_redirect }}"
@@ -31,9 +32,11 @@ nginx_sites:
   typo3.ssl:
     - set $upstream php
     - listen 443 http2
-    - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)?\.?(?<version>.*)\.local.typo3.org$
+    - server_name ~(?<serverNameUpstream>xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)?\.?(?<version>.*)\.local.typo3.org$
     - if ($version ~ (6.*|7.*)) { set $upstream php56; }
-    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70)|php)) { set $upstream $serverNameUpstream; }
+    - if ($version ~ (8.*)) { set $upstream php70; }
+    - if ($version ~ (9.*)) { set $upstream php72; }
+    - if ($serverNameUpstream ~ (php|xhprof|blackfire|hhvm|php\d\d?_\d\d?_\d\d?|php(55|56|70|72)|php)) { set $upstream $serverNameUpstream; }
     - root "{{ typo3_webroot }}${version}.local.typo3.org/";
     - ssl on
     - ssl_certificate /etc/ssl/certs/local.typo3.org.crt

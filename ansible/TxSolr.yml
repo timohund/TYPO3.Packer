@@ -13,16 +13,6 @@
     - { role: geerlingguy.java, tags: java }
     - {
         role: solr,
-        tags: solr-6.2,
-        solr_port: 8081,
-        solr_version: '4.8.0',
-        solr_install_path: '/opt/solr_typo3_6.2',
-        solr_service_name: 'solr_typo3_6_2',
-        solr_home: '/var/solr_typo3_6.2',
-        solr_log_file_path: '/var/log/solr.6.2.log'
-      }
-    - {
-        role: solr,
         tags: solr-7.6,
         solr_port: 8082,
         solr_version: '6.6.2',
@@ -47,13 +37,25 @@
     }
     - {
         role: solr,
-        tags: solr-dev-master,
+        tags: solr-9.0,
         solr_port: 8084,
         solr_version: '6.6.2',
-        solr_install_path: '/opt/solr_typo3_dev-master',
-        solr_config_file: '/etc/solr_typo3_dev-master.in.sh',
-        solr_service_name: 'solr_typo3_dev-master',
-        solr_home: '/var/solr_typo3_dev-master',
+        solr_install_path: '/opt/solr_typo3_9_0',
+        solr_config_file: '/etc/solr_typo3_9_0.in.sh',
+        solr_service_name: 'solr_typo3_9_0',
+        solr_home: '/var/solr_typo3_9.0',
+        solr_log_file_path: '/var/log/solr.9.0.log',
+        solr_cores:
+    }
+    - {
+        role: solr,
+        tags: solr-dev-master,
+        solr_port: 8085,
+        solr_version: '7.2.0',
+        solr_install_path: '/opt/solr_typo3_dev_master',
+        solr_config_file: '/etc/solr_typo3_dev_master.in.sh',
+        solr_service_name: 'solr_typo3_dev_master',
+        solr_home: '/var/solr_typo3_dev_master',
         solr_log_file_path: '/var/log/solr.dev-master.log',
         solr_cores:
     }

@@ -39,10 +39,6 @@
     "vendor-dir": "Packages/Libraries"
   },
   "minimum-stability": "dev",
-  "scripts": {
-    "post-update-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::setupConsole",
-    "post-install-cmd": "Helhum\\Typo3Console\\Composer\\InstallerScripts::setupConsole"
-  },
   "autoload-dev": {
     "psr-4": {
       "TYPO3\\CMS\\Backend\\Tests\\": "typo3_src/typo3/sysext/backend/Tests/",
@@ -79,10 +75,26 @@
   "require": {
     "typo3/cms": "{{ item.value }}",
     "typo3/cms-rte-ckeditor": "^8.7",
-    "helhum/typo3-console": "^4.6",
+    "helhum/typo3-console": "^5.0",
     "maxserv/accountmanagement": "*",
     "7elix/styleguide": "*",
-    "typo3-ter/introduction": "^3.0"
+    "typo3/cms-introduction": "^3.0"
+  },
+  "scripts": {
+    "package-states": [
+      "@php bin/typo3cms install:generatepackagestates"
+    ],
+    "folder-structure": [
+      "@php bin/typo3cms install:fixfolderstructure"
+    ],
+    "ext-setup": [
+      "@php bin/typo3cms install:extensionsetupifpossible"
+    ],
+    "post-autoload-dump": [
+      "@package-states",
+      "@folder-structure",
+      "@ext-setup"
+    ]
   },
   "require-dev": {
     "phpunit/phpunit": "~5.2.0",

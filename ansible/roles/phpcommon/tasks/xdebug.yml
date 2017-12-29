@@ -5,6 +5,7 @@
 
 - name: Customize PHP xdebug configuration file
   lineinfile: dest=/etc/php/{{ item | regex_replace('^php(\d)\.(\d)', '\1.\2') }}/mods-available/xdebug.ini line="[xdebug]" insertbefore=BOF state=present
+  when: item | match('^(php5.6|php7.0)\\.')
   with_items:
     - "{{ php_ondrej_versions }}"
 
@@ -15,6 +16,7 @@
     option="{{ item[1].option }}"
     value="{{ item[1].value }}"
     backup=yes
+  when: item[0] | match('^(php5.6|php7.0)\\.')
   with_nested:
     - "{{ php_ondrej_versions }}"
     - "{{ php_xdebug_ini }}"

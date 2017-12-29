@@ -8,12 +8,15 @@ php_brew_fpm_config:
 php_ondrej_versions:
   - 'php5.6'
   - 'php7.0'
+  - 'php7.2'
 
 php_ondrej_apt_packages:
   - 'php5.6'
   - 'php5.6-fpm'
   - 'php7.0'
   - 'php7.0-fpm'
+  - 'php7.2'
+  - 'php7.2-fpm'
 
 php_ondrej_pool_defaults:
   chdir: /
